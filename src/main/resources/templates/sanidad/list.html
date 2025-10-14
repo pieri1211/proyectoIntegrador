@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(content=~{::content}, title='Sanidad')}">
+<body>
+<div th:fragment="content">
+    <div class="row between">
+        <h2>Sanidad</h2>
+        <a class="btn" th:href="@{/sanidad/nuevo}">➕ Nuevo</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Animal</th><th>Tipo</th><th>Descripción</th><th>Dosis</th><th>Fecha</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${sanidades}">
+            <td th:text="${s.id}">1</td>
+            <td th:text="${s.animal != null ? s.animal.id : '-'}">3</td>
+            <td th:text="${s.tipo}">Vacunación</td>
+            <td th:text="${s.descripcion}">Carbunco</td>
+            <td th:text="${s.dosis}">5 ml</td>
+            <td th:text="${s.fecha}">2025-02-01</td>
+            <td>
+                <a th:href="@{|/sanidad/editar/${s.id}|}">Editar</a> ·
+                <a th:href="@{|/sanidad/eliminar/${s.id}|}" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(sanidades)}"><td colspan="7">Sin datos</td></tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(content=~{::content}, title=${lote?.id != null ? 'Editar lote' : 'Nuevo lote'})}">
+<body>
+<div th:fragment="content">
+    <h2 th:text="${lote?.id != null ? 'Editar lote' : 'Nuevo lote'}">Nuevo lote</h2>
+
+    <form th:action="@{/lotes/guardar}" th:object="${lote}" method="post" class="form">
+        <input type="hidden" th:if="${lote?.id}" th:field="*{id}"/>
+
+        <div class="grid">
+            <label>Nombre del lote
+                <input type="text" th:field="*{lote}" placeholder="Ej. Potrero A" required/>
+            </label>
+
+            <label>Fecha de entrada
+                <input type="date" th:field="*{fecha_entrada}" required/>
+            </label>
+
+            <label>Fecha de salida
+                <input type="date" th:field="*{fecha_salida}" />
+            </label>
+
+            <label class="colspan">Nota
+                <textarea th:field="*{nota}" rows="3" placeholder="Observaciones adicionales..."></textarea>
+            </label>
+        </div>
+
+        <div class="actions">
+            <button class="btn" type="submit">Guardar</button>
+            <a class="btn ghost" th:href="@{/lotes}">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

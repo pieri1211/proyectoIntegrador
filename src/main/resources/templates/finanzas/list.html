@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(content=~{::content}, title='Finanzas')}">
+<body>
+<div th:fragment="content">
+    <div class="row between">
+        <h2>Finanzas</h2>
+        <a class="btn" th:href="@{/finanzas/nuevo}">➕ Nuevo</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Tipo</th><th>Concepto</th><th>Monto</th><th>Fecha</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="f : ${finanzas}">
+            <td th:text="${f.id}">1</td>
+            <td th:text="${f.tipo}">Ingreso</td>
+            <td th:text="${f.concepto}">Venta</td>
+            <td th:text="${f.monto}">0</td>
+            <td th:text="${f.fecha}">2025-01-01</td>
+            <td>
+                <a th:href="@{|/finanzas/editar/${f.id}|}">Editar</a> ·
+                <a th:href="@{|/finanzas/eliminar/${f.id}|}" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(finanzas)}"><td colspan="6">Sin datos</td></tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

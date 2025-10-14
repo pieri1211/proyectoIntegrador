@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(content=~{::content}, title='Animales')}">
+<body>
+<div th:fragment="content">
+    <div class="row between">
+        <h2>Animales</h2>
+        <a class="btn" th:href="@{/animales/nuevo}">➕ Nuevo</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>Raza</th><th>Lote</th><th>Sexo</th><th>Fecha Nac.</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${animales}">
+            <td th:text="${a.id}">1</td>
+            <td th:text="${a.raza}">Brahman</td>
+            <td th:text="${a.lote != null ? a.lote.lote : '-'}">Lote 1</td>
+            <td th:text="${a.sexo}">H</td>
+            <td th:text="${a.fechaNac}">2025-01-01</td>
+            <td>
+                <a th:href="@{|/animales/editar/${a.id}|}">Editar</a> ·
+                <a th:href="@{|/animales/eliminar/${a.id}|}" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(animales)}"><td colspan="6">Sin datos</td></tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

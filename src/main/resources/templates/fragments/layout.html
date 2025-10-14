@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content, title)">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title} ?: 'AgriWave'">AgriWave</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<header class="topbar">
+    <h1>
+        <a th:href="@{/#reportes}">AgriWave</a>
+    </h1>
+    <div class="status"><span class="badge">Por Pierina Perez</span></div>
+</header>
+
+<!-- OJO: ahora sí desde /templates/fragments -->
+<nav th:replace="~{fragments/tabs :: tabs}"></nav>
+
+<main>
+    <div th:insert="${content}"></div>
+</main>
+
+<footer class="footer">
+    <small class="muted">© AgriWave</small>
+</footer>
+
+<script>
+    function activate(id){
+      const panels = document.querySelectorAll('.panel');
+      const links  = document.querySelectorAll('.tabs a[href^="#"]');
+      panels.forEach(p => p.classList.toggle('active', p.id === id));
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+      if(history.pushState) history.pushState(null,'','#'+id);
+    }
+    window.addEventListener('load', () => {
+      const firstPanel = document.querySelector('.panel');
+      const target = location.hash?.substring(1) || (firstPanel?.id ?? '');
+      if(target) activate(target);
+    });
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('.tabs a[href^="#"]');
+      if(!a) return;
+      e.preventDefault();
+      activate(a.getAttribute('href').substring(1));
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(content=~{::content}, title='AgriWave')}">
+<body>
+<div th:fragment="content">
+
+    <!-- KPIs -->
+    <section id="reportes" class="panel active">
+        <div class="grid kpis">
+            <div class="card">
+                <h3>Inventario de animales</h3>
+                <p class="summary" th:text="${reporteResumenAnimales}">0</p>
+            </div>
+            <div class="card">
+                <h3>Balance últimos 30 días</h3>
+                <p class="summary" th:text="${reporteBalance30d}">$0</p>
+            </div>
+            <div class="card">
+                <h3>Ocupación de lotes</h3>
+                <p class="summary" th:text="${reporteOcupacion}">-</p>
+            </div>
+            <div class="card actions">
+                <a class="btn" th:href="@{/reportes/dashboard}">Ver reportes</a>
+                <a class="btn ghost" th:href="@{/reportes/export/csv}">Exportar CSV</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animales -->
+    <section id="animales" class="panel">
+        <div class="card">
+            <div class="row between">
+                <h2>Animales</h2>
+                <div class="toolbar">
+                    <a class="btn" th:href="@{/animales/nuevo}">➕ Nuevo</a>
+                    <a class="btn ghost" th:href="@{/animales}">Ver lista</a>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Raza</th>
+                    <th>Lote</th>
+                    <th>Sexo</th>
+                    <th>Fecha Nac.</th>
+                    <th>Obs.</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${animales}">
+                    <td th:text="${a.id}">1</td>
+                    <td th:text="${a.raza}">Brahman</td>
+                    <td th:text="${a.lote != null ? a.lote.lote : '-'}">Lote 1</td>
+                    <td th:text="${a.sexo}">H</td>
+                    <td th:text="${a.fechaNac}">2025-01-01</td>
+                    <td th:text="${a.observaciones}">—</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(animales)}">
+                    <td colspan="6">Sin datos</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Finanzas -->
+    <section id="finanzas" class="panel">
+        <div class="card">
+            <div class="row between">
+                <h2>Finanzas</h2>
+                <div class="toolbar">
+                    <a class="btn" th:href="@{/finanzas/nuevo}">➕ Nuevo</a>
+                    <a class="btn ghost" th:href="@{/finanzas}">Ver lista</a>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="f : ${finanzas}">
+                    <td th:text="${f.id}">1</td>
+                    <td th:text="${f.tipo}">Ingreso</td>
+                    <td th:text="${f.concepto}">Venta</td>
+                    <td th:text="${f.monto}">0</td>
+                    <td th:text="${f.fecha}">2025-01-01</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(finanzas)}">
+                    <td colspan="5">Sin datos</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Lotes -->
+    <section id="lotes" class="panel">
+        <div class="card">
+            <div class="row between">
+                <h2>Lotes</h2>
+                <div class="toolbar">
+                    <a class="btn" th:href="@{/lotes/nuevo}">➕ Nuevo</a>
+                    <a class="btn ghost" th:href="@{/lotes}">Ver lista</a>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha entrada</th>
+                    <th>Fecha salida</th>
+                    <th>Nota</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="l : ${lotes}">
+                    <td th:text="${l.id}">1</td>
+                    <td th:text="${l.lote}">Potrero A</td>
+                    <td th:text="${l.fecha_entrada}">2025-01-01</td>
+                    <td th:text="${l.fecha_salida != null ? l.fecha_salida : '-'}">-</td>
+                    <td th:text="${l.nota}">—</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(lotes)}">
+                    <td colspan="5">Sin datos</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Sanidad -->
+    <section id="sanidad" class="panel">
+        <div class="card">
+            <div class="row between">
+                <h2>Sanidad</h2>
+                <div class="toolbar">
+                    <a class="btn" th:href="@{/sanidad/nuevo}">➕ Nuevo</a>
+                    <a class="btn ghost" th:href="@{/sanidad}">Ver lista</a>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Animal</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Dosis</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${sanidades}">
+                    <td th:text="${s.id}">1</td>
+                    <td th:text="${s.animal != null ? s.animal.id : '-'}">3</td>
+                    <td th:text="${s.tipo}">Vacunación</td>
+                    <td th:text="${s.descripcion}">Carbunco</td>
+                    <td th:text="${s.dosis}">5 ml</td>
+                    <td th:text="${s.fecha}">2025-02-01</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(sanidades)}">
+                    <td colspan="6">Sin datos</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:remove="tag">
+<nav th:fragment="tabs">
+    <div class="tabs-container">
+        <ul class="tabs">
+            <li><a th:href="@{/animales}">🐄 Animales</a></li>
+            <li><a th:href="@{/finanzas}">💰 Finanzas</a></li>
+            <li><a th:href="@{/lotes}">🌿 Lotes</a></li>
+            <li><a th:href="@{/sanidad}">🧪 Sanidad</a></li>
+        </ul>
+    </div>
+</nav>
+</html>
